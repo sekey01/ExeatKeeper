@@ -28,6 +28,10 @@ class _LoginState extends State<Login> {
     });
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
+      //get uid
+      final uid = _auth.currentUser!.uid;
+      Provider.of<LocalStorageProvider>(context, listen: false).storeId(uid);
+
       Notify(context, 'Login Successful', Colors.green);
     } catch (e) {
       Notify(context, 'Error: $e', Colors.red);

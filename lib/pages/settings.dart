@@ -732,7 +732,7 @@ class _SettingsState extends State<Settings> {
 
                   ///VERSION HERE
                   SizedBox(height: 50.sp,),
-                  Text('Version : 0.0.1',
+                  Text('Version : 1.0.0',
                     style: TextStyle(color: Colors.grey, fontSize: 10.sp),)
                 ],
               ),

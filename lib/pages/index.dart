@@ -101,7 +101,24 @@ automaticallyImplyLeading: false,
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Welcome 👋',
+                            style: TextStyle(color: Colors.blue, fontSize: 14.sp),
+                          ),
+                          // Icon button to refresh the page
+                          IconButton(
+                            icon: const Icon(Icons.refresh, color: Colors.blueGrey,),
+                            onPressed: () {
+                              setState(() {});
+                            },
+                          ),
+
+
+                        ],
+                      );
                     } else if (snapshot.hasData) {
                       final schoolDetails = snapshot.data as SchoolDetailsModel;
                       return Padding(

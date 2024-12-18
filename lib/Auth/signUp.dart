@@ -25,15 +25,22 @@ class _SignUpState extends State<SignUp> {
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: email,
           password: password,);
-     setState(() {
-      Uid = userCredential.user!.uid;
-     });
-          // Notify user of successful sign-up
-          Notify(context, 'Sign Up Successful', Colors.green);
+
+      if(userCredential.user != null){
+        setState(() {
+          Uid = userCredential.user!.uid;
+        });
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> SelectSchool(Uid:Uid ,)));
+
+        // Notify user of successful sign-up
+        Notify(context, 'Sign Up Successful', Colors.green);
+
+      }
+
 
     } catch (e) {
       // Handle errors
-      Notify(context, 'Error: $e', Colors.red);
+      Notify(context, 'Sign Up Failed', Colors.red);
     }
   }
 
@@ -254,7 +261,6 @@ obscureText: true,                    decoration: InputDecoration(
                                                   Provider.of<LocalStorageProvider>(context, listen: false).storeUsername('${firstNameController.text} ${lastNameController.text}');
                                                   signUp(context,emailController.text.toString(), passwordController.text.toString()).then((_){
                                                     Provider.of<LocalStorageProvider>(context, listen: false).storeId(Uid);
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> SelectSchool(Uid:Uid ,)));
                                                   });
 
                                                 } else {
@@ -287,7 +293,7 @@ obscureText: true,                    decoration: InputDecoration(
                                               child:  const Text(' Login', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                                   ),
                                   SizedBox(height: 30.sp,),
-                                  Text('By continuing,you agree to our Terms Of Use and Privacy Policy', style: TextStyle(fontSize: 10.sp,color: Colors.black),)
+                                  Text('Terms Of Use and Privacy Policy', style: TextStyle(fontSize: 10.sp,color: Colors.black),)
                                 ],
                               ),
                             ),
