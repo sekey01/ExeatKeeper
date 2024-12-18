@@ -3,15 +3,14 @@ import 'package:ek/Models/school_details_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
 import '../Components/Notify.dart';
 import '../Components/style.dart';
 import '../provider/functions/uploadfunction.dart';
-import '../provider/local_storage/StoreCredentials.dart';
 import 'add_security.dart';
 
 class SelectSchool extends StatefulWidget {
-  const SelectSchool({super.key});
+  final String Uid;
+  const SelectSchool({super.key, required this.Uid});
 
 
   @override
@@ -209,7 +208,9 @@ class _SelectSchoolState extends State<SelectSchool> {
                         ElevatedButton(
                           onPressed: (){
     if(formkey.currentState!.validate()){
-  Provider.of<LocalStorageProvider>(context, listen: false).addSchoolDetail(SchoolDetailsModel(schoolName:school , house: houseNumber, houseName: houseNameController.text));
+      Provider.of<UploadFunctionProvider>(context,listen:false).UploadSchoolDetail(SchoolDetailsModel(userId: widget.Uid,
+          schoolName:school , house: houseNumber, houseName: houseNameController.text));
+
   Notify(context, 'School Selected Successfully', Colors.green);
 
     Navigator.push(context, MaterialPageRoute(builder: (context)=> const SelectSecurity()));

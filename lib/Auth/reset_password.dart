@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,13 +17,11 @@ final formKey = GlobalKey<FormState>();
 class _ResetPasswordState extends State<ResetPassword> {
 
 //Password Reset Functionality
-  Future<void> _resetPassword(String email) async {
-    final supabase = Supabase.instance.client;
+  Future<void> sendPasswordResetEmail( String email) async {
     try {
-      final response = await supabase.auth.resetPasswordForEmail(email);
-      Notify(context, 'Reset link sent to ${_emailController.text.toString()}', Colors.green);
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      Notify(context, 'Password reset email sent', Colors.green);
     } catch (e) {
-     // print('Error: $e');
       Notify(context, 'Error: $e', Colors.red);
     }
   }
@@ -109,7 +108,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 ),
                 onPressed: () {
                   if(formKey.currentState!.validate()){
-                    _resetPassword(_emailController.text.toString()).then(
+                    sendPasswordResetEmail(_emailController.text.toString()).then(
                             (value) {
                                Future.delayed(const Duration(seconds: 2));
                               Navigator.pushReplacementNamed(context, '/login');

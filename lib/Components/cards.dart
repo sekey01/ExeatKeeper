@@ -46,7 +46,7 @@ Container  InitContainer(String schoolName,String house, String houseNumber){
                     children: [
                       Icon(Icons.warehouse_outlined, size: 25.sp,color: Colors.white,),
                       SizedBox(width: 10.w,),
-                      Text('House N0: $houseNumber', overflow: TextOverflow.ellipsis,style: const TextStyle(color: Colors.white),)
+                      Text('House : $houseNumber', overflow: TextOverflow.ellipsis,style: const TextStyle(color: Colors.white),)
                     ],
                   ),
                 ),

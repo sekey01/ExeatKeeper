@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:ek/provider/local_storage/StoreCredentials.dart';
-
 import '../Components/alerts.dart';
 import '../Components/simple row.dart';
 import '../Models/student_datail_model.dart';
@@ -105,6 +104,7 @@ class _StudentSearchState extends State<StudentSearch> {
             ),
           ),
           Expanded(
+            flex: 1,
             child: ListView.builder(
               itemCount: _searchResults.length,
               itemBuilder: (context, index) {

@@ -4,12 +4,14 @@ import 'package:ek/Auth/reset_password.dart';
 import 'package:ek/Auth/signUp.dart';
 import 'package:ek/Components/Notify.dart';
 import 'package:ek/provider/local_storage/StoreCredentials.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../Components/style.dart';
 import '../pages/home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -18,41 +20,26 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
-
-  //Sign in with email and password
-
-  Future<void> signIn( String email, String password) async {
+   bool isLoading = false;
+  final _auth = FirebaseAuth.instance;
+  Future<void> signIn(String email, String password) async {
     setState(() {
-      isloading = true;
+      isLoading = true;
     });
-    final supabase = Supabase.instance.client;
-
-    try{
-      final response = await supabase.auth
-          .signInWithPassword(email: email, password: password);
-
-      if(response.user != null){
-        setState(() {
-          isloading = false;
-        });
-        Navigator.pushReplacementNamed(context, '/home');
-      }
-      else{
-        print('User: No User ');
-      }
-    }
-    catch(e){
-      print("Error: $e");
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      Notify(context, 'Login Successful', Colors.green);
+    } catch (e) {
+      Notify(context, 'Error: $e', Colors.red);
+    } finally {
       setState(() {
-        isloading = false;
+        isLoading = false;
       });
-      Notify(context, 'Wrong Credentials', Colors.red);
     }
   }
 
 
-  bool isloading = false;
+
 final _emailController = TextEditingController();
 final _passwordController = TextEditingController();
 final formkey = GlobalKey<FormState>();
@@ -69,6 +56,7 @@ final formkey = GlobalKey<FormState>();
 
       body:  Center(
         child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
           child: Column(
             children: <Widget>[
               const SizedBox(height: 100,),
@@ -120,14 +108,13 @@ final formkey = GlobalKey<FormState>();
                           topRight: Radius.circular(30)
                       )
                   ),
-                  child: Expanded(
                     child: SingleChildScrollView(
                       child: Form(
                         key: formkey,
                         child: Column(
                           children: [
                             const SizedBox(height: 20,),
-                            isloading?CircularProgressIndicator(color: Colors.white,):Text('Login', style: boldTextStyle( Colors.white),),
+                            isLoading?CircularProgressIndicator(color: Colors.white,):Text('Login', style: boldTextStyle( Colors.white),),
 
                             ///EMAIL
                             ///
@@ -258,6 +245,10 @@ final formkey = GlobalKey<FormState>();
                                 if(formkey.currentState!.validate()){
                                   signIn(_emailController.text.trim(), _passwordController.text.trim()).then((_){
                                     Provider.of<LocalStorageProvider>(context, listen: false).storeLoginStatus('true');
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Home()));
+                                    //clear controlers
+                                    _emailController.clear();
+                                    _passwordController.clear();
                                   });
                                 }
 
@@ -297,8 +288,8 @@ final formkey = GlobalKey<FormState>();
                         ),
                       ),
                     ),
-                  ))
-            ],
+                  )
+          ]
 
           ),
         ),

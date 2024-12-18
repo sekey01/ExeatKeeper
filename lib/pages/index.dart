@@ -4,12 +4,12 @@ import 'package:ek/Components/simple%20row.dart';
 import 'package:ek/Models/school_details_model.dart';
 import 'package:ek/Models/sign_exeat_model.dart';
 import 'package:ek/Notification_Provider/notification_provider.dart';
+import 'package:ek/provider/functions/uploadfunction.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../Components/Notify.dart';
 import '../Components/style.dart';
 import '../provider/local_storage/StoreCredentials.dart';
 
@@ -45,6 +45,14 @@ final TextEditingController _nameController = TextEditingController();
   final TextEditingController _toController = TextEditingController();
   final TextEditingController _reasonController = TextEditingController();
   final TextEditingController _parentTellController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<LocalStorageProvider>(context,listen: false).getId();
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,30 +89,35 @@ automaticallyImplyLeading: false,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-/// INIT CONTAINER
+            /// INIT CONTAINER
             ///
 
-            FutureBuilder(
-              future: Provider.of<LocalStorageProvider>(context, listen: false).loadSchoolDetails(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else if (snapshot.hasData) {
-                  final schoolDetails = snapshot.data as SchoolDetailsModel;
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InitContainer(
-                      schoolDetails.schoolName,
-                      schoolDetails.houseName,
-                      schoolDetails.house,
-                    ),
-                  );
-                } else {
-                  return const Text('No school details available');
-                }
-              },
+            Builder(
+              builder: (context) {
+                Provider.of<LocalStorageProvider>(context,listen: false).getId();
+                return FutureBuilder(
+                  future: Provider.of<UploadFunctionProvider>(context, listen: false).getMySchool(Provider.of<LocalStorageProvider>(context,listen: false).id),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else if (snapshot.hasData) {
+                      final schoolDetails = snapshot.data as SchoolDetailsModel;
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InitContainer(
+                          schoolDetails.schoolName,
+                          schoolDetails.houseName,
+                          schoolDetails.house,
+                        ),
+                      );
+                    } else {
+                      return const Text('No school details available');
+                    }
+                  },
+                );
+              }
             ),
 
 
@@ -157,6 +170,7 @@ automaticallyImplyLeading: false,
                           color: Colors.grey.shade300,
                         ),
                         child: const Expanded(
+                          flex: 1,
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -359,6 +373,7 @@ automaticallyImplyLeading: false,
                       Padding(
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                         child: TextFormField(
+                          keyboardType: TextInputType.phone,
                           controller: _parentTellController,
                           validator: (value){
                             if(value!.isEmpty){
@@ -457,7 +472,7 @@ automaticallyImplyLeading: false,
                         ),
                         child: const Text(' Continue', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                       ),
-                  SizedBox(height: 10.h,),
+                      SizedBox(height: 10.h,),
                       /// BUTTON FOR CANCEL EXEAT
                       ElevatedButton(
                         onPressed: (){
@@ -490,7 +505,7 @@ automaticallyImplyLeading: false,
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(4.0),
-              child: Text('Approve Exeat +', style: TextStyle(color: Colors.white,fontSize: 10.sp),),
+              child: Text('Approve Exeat +', style: TextStyle(color: Colors.white,fontSize: 8.sp),),
             ),
           ),
         ),

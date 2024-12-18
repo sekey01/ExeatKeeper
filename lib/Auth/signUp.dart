@@ -1,12 +1,11 @@
-import 'dart:typed_data';
 import 'package:ek/Auth/select_school.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../Components/Notify.dart';
 import '../Components/style.dart';
 import '../provider/local_storage/StoreCredentials.dart';
@@ -22,42 +21,19 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
 
   Future<void> signUp(BuildContext context, String email, String password) async {
-setState(() {
-      isLoading = true;
-});    try {
-      final response = await Supabase.instance.client.auth.signUp(
-        email: email,
-        password: password,
-      );
-      setState(() {
-        isLoading = false;
-      });
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: email,
+          password: password,);
+     setState(() {
+      Uid = userCredential.user!.uid;
+     });
+          // Notify user of successful sign-up
+          Notify(context, 'Sign Up Successful', Colors.green);
 
-      //print('Sign up response received: ${response.user != null ? 'Success' : 'Failure'}');
-
-      if (response.user != null) {
-        Provider.of<LocalStorageProvider>(context,listen: false).storeId(response.user!.id.toString());
-        // Sign up successful
-       // print('Sign up successful for user: ${response.user!.id}');
-       Notify(context, 'signUp Successful', Colors.green);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => SelectSchool()),
-        );
-      } else {
-        // This case should not typically occur, but handle it just in case
-        throw Exception('Sign up failed: No user returned');
-        setState(() {
-          isLoading = false;
-        });
-      }
-    }  catch (error) {
-      // Handle any other errors
-      print('Unexpected error during sign up: $error');
-      Notify(context, '$error', Colors.red);
-      setState(() {
-        isLoading = false;
-      });
+    } catch (e) {
+      // Handle errors
+      Notify(context, 'Error: $e', Colors.red);
     }
   }
 
@@ -70,7 +46,7 @@ setState(() {
   final TextEditingController confirmPasswordController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
-
+  String Uid = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -266,52 +242,53 @@ obscureText: true,                    decoration: InputDecoration(
                               )
                             ),
 
-                            child: Expanded(
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(height: 50.h,),
-                                    isLoading? const CircularProgressIndicator(color: Colors.black,):ElevatedButton(
-                                                onPressed: (){
-                                                  // Validate the form
-                                                  if (formkey.currentState?.validate() == true && passwordController.text == confirmPasswordController.text) {
-                                                    Provider.of<LocalStorageProvider>(context, listen: false).storeUsername('${firstNameController.text} ${lastNameController.text}');
-                                                    signUp(context,emailController.text.toString(), passwordController.text.toString());
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(height: 50.h,),
+                                  isLoading? const CircularProgressIndicator(color: Colors.black,):ElevatedButton(
+                                              onPressed: (){
+                                                // Validate the form
+                                                if (formkey.currentState?.validate() == true && passwordController.text == confirmPasswordController.text) {
+                                                  Provider.of<LocalStorageProvider>(context, listen: false).storeUsername('${firstNameController.text} ${lastNameController.text}');
+                                                  signUp(context,emailController.text.toString(), passwordController.text.toString()).then((_){
+                                                    Provider.of<LocalStorageProvider>(context, listen: false).storeId(Uid);
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> SelectSchool(Uid:Uid ,)));
+                                                  });
 
-                                                  } else {
-                                                    Notify(context, 'Passwords Dont match', Colors.red);
-                                                  }
-                                                },
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor: Colors.blueGrey,
-                                                    padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 20),
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(30)
-                                                    )
-                                                ),
-                                                child: const Text('Continue', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                                    ),
-                                    SizedBox(height: 20.h,),
-                                    ///Already have an account?
-                                    Text('Already a member ?', style: smallTextStyle(Colors.black),),
-                                    ElevatedButton(
-                                                onPressed: (){
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const Login()));
-                                                },
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor: Colors.black,
-                                                    padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 20),
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(30)
-                                                    )
-                                                ),
-                                                child:  const Text(' Login', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                                    ),
-                                    SizedBox(height: 30.sp,),
-                                    Text('By continuing,you agree to our Terms Of Use and Privacy Policy', style: TextStyle(fontSize: 10.sp,color: Colors.black),)
-                                  ],
-                                ),
+                                                } else {
+                                                  Notify(context, 'Passwords Dont match', Colors.red);
+                                                }
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.blueGrey,
+                                                  padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 20),
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(30)
+                                                  )
+                                              ),
+                                              child: const Text('Continue', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                                  ),
+                                  SizedBox(height: 20.h,),
+                                  ///Already have an account?
+                                  Text('Already a member ?', style: smallTextStyle(Colors.black),),
+                                  ElevatedButton(
+                                              onPressed: (){
+                                                Navigator.push(context, MaterialPageRoute(builder: (context)=> const Login()));
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.black,
+                                                  padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 20),
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(30)
+                                                  )
+                                              ),
+                                              child:  const Text(' Login', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                                  ),
+                                  SizedBox(height: 30.sp,),
+                                  Text('By continuing,you agree to our Terms Of Use and Privacy Policy', style: TextStyle(fontSize: 10.sp,color: Colors.black),)
+                                ],
                               ),
                             ),
                   )

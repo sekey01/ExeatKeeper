@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:ek/provider/local_storage/StoreCredentials.dart';
 import 'package:ek/Models/sign_exeat_model.dart';
-
 import '../Components/alerts.dart';
 import '../Components/simple row.dart';
 
@@ -121,7 +120,8 @@ class _HistoryState extends State<History> {
               ),
             ),
           ),
-          Expanded(
+               Expanded(
+            flex: 1,
             child: ListView.builder(
               itemCount: _searchResults.length,
               itemBuilder: (context, index) {

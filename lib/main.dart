@@ -15,14 +15,25 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'Auth/login.dart';
 
 Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
    await dotenv.load(fileName: "assets/.env");
   // Ensure that widget binding is initialized
   WidgetsFlutterBinding.ensureInitialized();
+   await Supabase.initialize(
+     url: 'https://oehkjbrqffbwwbmrdhpr.supabase.co',
+     anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9laGtqYnJxZmZid3dibXJkaHByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjg5OTEyOTgsImV4cCI6MjA0NDU2NzI5OH0.oRDO1gwo6Jwv_q7Li2vuzY2LPnU7dr0IgjxQ6XhDF_k',
+     authOptions: const FlutterAuthClientOptions(
+       authFlowType: AuthFlowType.pkce,
+     ),
+     realtimeClientOptions: const RealtimeClientOptions(
+       logLevel: RealtimeLogLevel.info,
+     ),
+     storageOptions: const StorageClientOptions(
+       retryAttempts: 10,
+     ),
+   );
 
-    await Supabase.initialize(
-        url: 'https://oehkjbrqffbwwbmrdhpr.supabase.co',
-        anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9laGtqYnJxZmZid3dibXJkaHByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjg5OTEyOTgsImV4cCI6MjA0NDU2NzI5OH0.oRDO1gwo6Jwv_q7Li2vuzY2LPnU7dr0IgjxQ6XhDF_k'
-    );
 
         // Run the app
   runApp( MyApp());
@@ -42,6 +53,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => LocalStorageProvider()),
           ChangeNotifierProvider(create: (context) => NotificationProvider()),
           ChangeNotifierProvider(create: (context) => DownloadFunction()),
+          ChangeNotifierProvider(create: (context) => UploadFunctionProvider()),
 
         ],
         child: MaterialApp(

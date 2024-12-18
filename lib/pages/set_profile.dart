@@ -1,12 +1,10 @@
 import 'dart:io';
-
 import 'package:ek/provider/local_storage/StoreCredentials.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
 import '../Components/Notify.dart';
 
 class SetProfile extends StatefulWidget {
