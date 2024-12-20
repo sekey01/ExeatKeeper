@@ -34,11 +34,12 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         body:screens[_currentIndex],
         bottomNavigationBar: BottomNavigationBar(
+
           backgroundColor: Colors.white,
           unselectedItemColor: Colors.grey,
           selectedItemColor: Colors.black,
-          selectedLabelStyle: const TextStyle(color: Colors.black),
-          unselectedLabelStyle: const TextStyle(color: Colors.grey),
+          selectedLabelStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontFamily: 'QuickSand'),
+          unselectedLabelStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold,fontFamily: 'QuickSand'),
           type: BottomNavigationBarType.fixed,
           landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
           currentIndex: _currentIndex,

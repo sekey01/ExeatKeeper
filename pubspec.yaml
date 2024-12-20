@@ -49,6 +49,8 @@ dependencies:
   flutter_dotenv: ^5.2.1
   cloud_firestore: ^5.5.1
   firebase_auth: ^5.3.4
+  easy_url_launcher: ^0.0.7
+  lite_rolling_switch: ^1.0.1
 
 dev_dependencies:
   flutter_test:

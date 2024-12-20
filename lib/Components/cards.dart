@@ -26,7 +26,7 @@ Container  InitContainer(String schoolName,String house, String houseNumber){
                     children: [
                       Icon(Icons.school_outlined, size: 25.sp,color: Colors.white,),
                       SizedBox(width: 10.w,),
-                      Text(' $schoolName', overflow: TextOverflow.ellipsis,style: TextStyle(color: Colors.white, fontSize: 12.sp),)
+                      Text('$schoolName', overflow: TextOverflow.ellipsis,style: TextStyle(color: Colors.white, fontSize: 12.sp,fontFamily: 'QuickSand',fontWeight: FontWeight.bold),)
                     ],
                   ),
                 ),
@@ -36,7 +36,7 @@ Container  InitContainer(String schoolName,String house, String houseNumber){
                     children: [
                       Icon(Icons.house_outlined, size: 25.sp,color: Colors.white,),
                       SizedBox(width: 10.w,),
-                      Text(house, overflow: TextOverflow.ellipsis,style: TextStyle(color: Colors.white, fontSize: 12.sp),)
+                      Text(house, overflow: TextOverflow.ellipsis,style: TextStyle(color: Colors.white, fontSize: 12.sp,fontFamily: 'QuickSand',fontWeight: FontWeight.bold),)
                     ],
                   ),
                 ),
@@ -46,7 +46,7 @@ Container  InitContainer(String schoolName,String house, String houseNumber){
                     children: [
                       Icon(Icons.warehouse_outlined, size: 25.sp,color: Colors.white,),
                       SizedBox(width: 10.w,),
-                      Text('House : $houseNumber', overflow: TextOverflow.ellipsis,style: const TextStyle(color: Colors.white),)
+                      Text('House : $houseNumber', overflow: TextOverflow.ellipsis,style: const TextStyle(color: Colors.white,fontSize: 12,fontFamily: 'QuickSand',fontWeight: FontWeight.bold),)
                     ],
                   ),
                 ),

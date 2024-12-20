@@ -39,10 +39,14 @@ class _ResetPasswordState extends State<ResetPassword> {
                 padding: const EdgeInsets.all(8.0),
                 child: Image(image: const AssetImage('assets/Icon/reset_password.png'), height: 100.h,width: 150.w,),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 30),
 
 
-              const Text('Reset Password'),
+              const Text('A password reset link will be sent to your email', style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                  fontFamily: 'QuickSand'), textAlign: TextAlign.center,),
               const SizedBox(height: 20),
               ///EMAIL
               ///

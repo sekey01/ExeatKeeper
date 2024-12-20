@@ -22,7 +22,7 @@ class NotificationProvider extends ChangeNotifier{
         print('Response: ${response.body}');
       } else {
         print('Failed to send message: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        print('Response body: ${response.statusCode}');
       }
     } catch (e) {
       print('Error sending message: $e');

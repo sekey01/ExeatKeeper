@@ -36,7 +36,7 @@ class _SettingsState extends State<Settings> {
       await FirebaseAuth.instance.signOut();
       Provider.of<LocalStorageProvider>(context, listen: false)
           .storeLoginStatus('false');
-      Navigator.pushReplacementNamed(context, '/splash_screen');
+      Navigator.pushReplacementNamed(context, '/login');
       Notify(context, 'Logout Successful', Colors.green);
     } catch (e) {
       Notify(context, 'Error: $e', Colors.red);
@@ -61,6 +61,7 @@ class _SettingsState extends State<Settings> {
             child: Text(
               'Settings',
               style: TextStyle(
+                fontFamily: 'Righteous',
                 color: Colors.blueGrey,
                 fontSize: 25.sp,
                 fontWeight: FontWeight.bold,
@@ -137,7 +138,8 @@ class _SettingsState extends State<Settings> {
                                     },
                                   ),
                                   Text('House Father', style: TextStyle(
-                                    color: Colors.grey,
+                                    fontFamily: 'QuickSand',
+                                    color: Colors.black,
                                     fontSize: 12.sp,
                                   ),),
                                 ],
@@ -373,6 +375,8 @@ class _SettingsState extends State<Settings> {
                                             return Text(
                                               snapshot.data.toString(),
                                               style: TextStyle(
+                                                 fontFamily: 'QuickSand',
+                                                  fontWeight: FontWeight.bold,
                                                   color: Colors.black,
                                                   fontSize: 12.sp),);
                                           }
@@ -403,6 +407,8 @@ class _SettingsState extends State<Settings> {
                       child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CircleAvatar(
                                   radius: 15.sp,
@@ -413,9 +419,11 @@ class _SettingsState extends State<Settings> {
                                   padding: const EdgeInsets.fromLTRB(
                                       10, 0, 0, 0),
                                   child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
 
                                     children: [
-                                      Text(' Update Profile Picture',
+                                      Text('Update Profile Picture',
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 12.sp,
@@ -425,8 +433,10 @@ class _SettingsState extends State<Settings> {
                                           .of<LocalStorageProvider>(
                                           context, listen: false)
                                           .userName, style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'QuickSand',
                                         color: Colors.grey,
-                                        fontSize: 10.sp,
+                                        fontSize: 12.sp,
                                       ),),
                                     ],
                                   ),
@@ -468,6 +478,9 @@ class _SettingsState extends State<Settings> {
                                           fontWeight: FontWeight.bold
                                       ),),
                                       Text('**********', style: TextStyle(
+                                        fontFamily: 'QuickSand',
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 4,
                                         color: Colors.grey,
                                         fontSize: 10.sp,
                                       ),),
@@ -510,31 +523,35 @@ class _SettingsState extends State<Settings> {
                       child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CircleAvatar(
                                   radius: 20.sp,
                                   child: const ImageIcon(
                                     AssetImage('assets/Icon/guard.png'),
-                                    size: 25, color: Colors.black,),
+                                    size: 25, color: Colors.red,),
                                 ),
                                 SizedBox(width: 10.w,),
                                 Padding(
                                   padding: const EdgeInsets.fromLTRB(
-                                      10, 0, 0, 0),
+                                      0, 0, 0, 0),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment
                                         .start,
                                     children: [
-                                      Text(' Update Security Information',
+                                      Text('Update Security Information',
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 12.sp,
                                             fontWeight: FontWeight.bold
                                         ),),
-                                      Text(' Three security guards configured',
+                                      Text('Three security guards configured',
                                         style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'QuickSand',
                                           color: Colors.grey,
-                                          fontSize: 10.sp,
+                                          fontSize: 12.sp,
                                         ),),
                                     ],
                                   ),
@@ -577,10 +594,12 @@ class _SettingsState extends State<Settings> {
                                           fontSize: 12.sp,
                                           fontWeight: FontWeight.bold
                                       ),),
-                                      Text(' Entails all your stored students ',
+                                      Text('Entails all your stored students ',
                                         style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'QuickSand',
                                           color: Colors.grey,
-                                          fontSize: 10.sp,
+                                          fontSize: 12.sp,
                                         ),),
                                     ],
                                   ),
@@ -623,8 +642,10 @@ class _SettingsState extends State<Settings> {
                                           fontSize: 12.sp,
                                           fontWeight: FontWeight.bold
                                       ),),
-                                      Text(' Entails all your stored Exeats ',
+                                      Text('Entails all your stored Exeats ',
                                         style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'QuickSand',
                                           color: Colors.grey,
                                           fontSize: 10.sp,
                                         ),),
@@ -672,6 +693,8 @@ class _SettingsState extends State<Settings> {
                                       ),),
                                       Text(' Entails all Securities ',
                                         style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'QuickSand',
                                           color: Colors.grey,
                                           fontSize: 10.sp,
                                         ),),
@@ -719,6 +742,8 @@ class _SettingsState extends State<Settings> {
                                       ),),
                                       Text(' Logout from the app ',
                                         style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'QuickSand',
                                           color: Colors.grey,
                                           fontSize: 10.sp,
                                         ),),
@@ -733,7 +758,11 @@ class _SettingsState extends State<Settings> {
                   ///VERSION HERE
                   SizedBox(height: 50.sp,),
                   Text('Version : 1.0.0',
-                    style: TextStyle(color: Colors.grey, fontSize: 10.sp),)
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'QuickSand',
+                        color: Colors.grey,
+                        fontSize: 10.sp),)
                 ],
               ),
             ),

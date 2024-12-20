@@ -1,13 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ek/Components/Notify.dart';
 import 'package:ek/Models/student_datail_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../Models/school_details_model.dart';
 import '../../Models/security_data_model.dart';
 import '../../Models/sign_exeat_model.dart';
+import '../../Notification_Provider/notification_provider.dart';
 
 class LocalStorageProvider extends ChangeNotifier {
   /// Just making use of this Provider to get the upgdated value for the notification page
@@ -406,8 +410,9 @@ class LocalStorageProvider extends ChangeNotifier {
         // Read the contents of the file
         String contents = await file.readAsString();
         id = contents; // Parse the contents to an integer
-
-        return id;
+        print(id);
+       // notifyListeners();
+        return contents;
       } else {
         return ' Error : No Id Found'; // Default value if the file doesn't exist
       }
@@ -699,6 +704,7 @@ class LocalStorageProvider extends ChangeNotifier {
       final file = await _localSecurityFile;
       final contents = await file.readAsString();
       final data = json.decode(contents) as List;
+
     //  print('LOAD SECURITY DETAILS CALLED ');
 
       return data.map((x) => SecurityDetailsModel.fromJson(x)).toList();
@@ -710,6 +716,30 @@ class LocalStorageProvider extends ChangeNotifier {
   }
 
 
+  Future<List<SecurityDetailsModel>> sendSmsToSecurity(BuildContext context, String authKey, String name) async {
+    try {
+      final file = await _localSecurityFile;
+      final contents = await file.readAsString();
+      final data = json.decode(contents) as List;
+
+      if (data.isNotEmpty) {
+        for (var i in data) {
+          await Provider.of<NotificationProvider>(context, listen: false).sendSms(
+              i['securityPhone'],
+              'Dear Security, A student has requested for an exeat.\n'
+                  'Authenticate the student \n $name :  $authKey \n and confirm if the student is allowed to go out. Thank you'
+          );
+        }
+      } else {
+        Notify(context, 'No Security Found', Colors.red);
+      }
+
+      return data.map((x) => SecurityDetailsModel.fromJson(x)).toList();
+    } catch (e) {
+      print('Load Security Details Error: $e');
+      return [];
+    }
+  }
 
   Future<void> deleteSecurityDetail(int index) async {
     try {

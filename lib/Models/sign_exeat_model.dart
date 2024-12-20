@@ -1,4 +1,5 @@
 class SignExeatModel {
+ final String id;
   final String name;
   final String to;
   final String reason;
@@ -6,6 +7,7 @@ class SignExeatModel {
   bool isBack;
 
   SignExeatModel({
+    required this.id,
     required this.name,
     required this.to,
     required this.reason,
@@ -14,6 +16,7 @@ class SignExeatModel {
   });
 
   Map<String, dynamic> toJson() => {
+    'id': id,
     'name': name,
     'to': to,
     'reason': reason,
@@ -22,6 +25,7 @@ class SignExeatModel {
   };
 
   factory SignExeatModel.fromJson(Map<String, dynamic> json) => SignExeatModel(
+    id: json['id'] ?? '',
     name: json['name'] ?? '',
     to: json['to'] ?? '',
     reason: json['reason'] ?? '',

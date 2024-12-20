@@ -212,7 +212,7 @@ class _SelectSchoolState extends State<SelectSchool> {
 
                   Notify(context, 'School Selected Successfully', Colors.green);
 
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const SelectSecurity()));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const SelectSecurity()));
 
                     }
 

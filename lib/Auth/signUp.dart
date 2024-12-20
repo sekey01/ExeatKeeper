@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../Components/Notify.dart';
 import '../Components/style.dart';
 import '../provider/local_storage/StoreCredentials.dart';
@@ -30,7 +29,7 @@ class _SignUpState extends State<SignUp> {
         setState(() {
           Uid = userCredential.user!.uid;
         });
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> SelectSchool(Uid:Uid ,)));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> SelectSchool(Uid:Uid ,)));
 
         // Notify user of successful sign-up
         Notify(context, 'Sign Up Successful', Colors.green);
@@ -264,7 +263,7 @@ obscureText: true,                    decoration: InputDecoration(
                                                   });
 
                                                 } else {
-                                                  Notify(context, 'Passwords Dont match', Colors.red);
+                                                  Notify(context, 'Passwords Don\'t match', Colors.red);
                                                 }
                                               },
                                               style: ElevatedButton.styleFrom(
@@ -281,7 +280,7 @@ obscureText: true,                    decoration: InputDecoration(
                                   Text('Already a member ?', style: smallTextStyle(Colors.black),),
                                   ElevatedButton(
                                               onPressed: (){
-                                                Navigator.push(context, MaterialPageRoute(builder: (context)=> const Login()));
+                                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const Login()));
                                               },
                                               style: ElevatedButton.styleFrom(
                                                   backgroundColor: Colors.black,

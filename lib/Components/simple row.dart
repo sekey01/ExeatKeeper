@@ -18,13 +18,15 @@ class StudentDetailRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             '$label: ',
-            textAlign: TextAlign.start,
+            textAlign: TextAlign.center,
             style: TextStyle(
+              fontFamily: 'QuickSand',
               color: Colors.black,
-              fontSize: 12.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -32,9 +34,10 @@ class StudentDetailRow extends StatelessWidget {
             child: Text(
               value,
               style: TextStyle(
-                color: Colors.black,
+                  fontFamily: 'QuickSand',
+                color: Colors.grey,
                 fontSize: 12.sp,
-                fontWeight: FontWeight.normal
+                fontWeight: FontWeight.bold
               ),
               textAlign: TextAlign.start,
               softWrap: true,

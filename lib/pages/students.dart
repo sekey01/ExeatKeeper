@@ -1,3 +1,4 @@
+import 'package:easy_url_launcher/easy_url_launcher.dart';
 import 'package:ek/Components/Notify.dart';
 import 'package:ek/Components/alerts.dart';
 import 'package:ek/Models/student_datail_model.dart';
@@ -147,12 +148,22 @@ final TextEditingController _classRoomController = TextEditingController();
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ExpansionTile(
+                              collapsedShape: RoundedRectangleBorder(
+                                side: const BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(color: Colors.black, width: 1),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
                               iconColor: Colors.black,
                               collapsedBackgroundColor: Colors.grey.shade300,
 
                               title: Text(
                                 ' ${student.name}',
                                 style: TextStyle(
+                                  fontFamily: 'QuickSand',
+                                  fontWeight: FontWeight.bold,
                                   color: Colors.black,
                                   fontSize: 15.spMin,
                                 ),
@@ -163,7 +174,17 @@ final TextEditingController _classRoomController = TextEditingController();
                                 StudentDetailRow(label: 'Class', value: student.classRoom),
                                 StudentDetailRow(label: 'Location', value: student.location.toString()),
                                 StudentDetailRow(label: 'Room Number', value: student.roomNumber.toString()),
-                                StudentDetailRow(label: 'Parent Tell', value: student.parentTell.toString()),
+                                InkWell(
+                                  onTap: () async{
+                                    EasyLauncher.call(number: student.parentTell.toString());
+                                  },
+                                  child: Badge(
+                                    textStyle: TextStyle(color: Colors.white, fontSize: 8.spMin,fontFamily: 'QuickSand',fontWeight: FontWeight.bold),
+                                    alignment: Alignment.topCenter,
+                                    backgroundColor: Colors.blueGrey,
+                                    label: Text('Tap to call Guardian', style: TextStyle(color: Colors.white, fontSize: 8.spMin),),
+                                      child: StudentDetailRow(label: 'Parent Tell', value: student.parentTell.toString())),
+                                ),
                               ],
                             ),
                           ),
@@ -485,7 +506,7 @@ final TextEditingController _classRoomController = TextEditingController();
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.all(4.0),
-                child: Text('Add Student +', style: TextStyle(color: Colors.white,fontSize: 10.sp),),
+                child: Text('Add Student +', style: TextStyle(color: Colors.white,fontSize: 10.sp,fontFamily: 'QuickSand',fontWeight: FontWeight.bold),),
               ),
             ),
           ),

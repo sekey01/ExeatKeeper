@@ -12,6 +12,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   Future<void>Loading() async {
+    Provider.of<LocalStorageProvider>(context,listen: false).getId();
     await Future.delayed(Duration(seconds: 8));
   }
   @override
@@ -20,7 +21,6 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
    Provider.of<LocalStorageProvider>(context, listen: false).getLoginStatus(context);
     Loading();
-    Provider.of<LocalStorageProvider>(context,listen: false).getId();
 
   }
   @override

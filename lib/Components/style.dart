@@ -22,7 +22,7 @@ TextStyle smallTextStyle(Color colour) {
 }
 TextStyle moderateBoldTextStyle(Color colour) {
   return TextStyle(
-      fontFamily: 'Righteous',
+      fontFamily: 'QuickSand',
       fontWeight: FontWeight.bold,
       fontSize: 12.sp,
       color: colour,

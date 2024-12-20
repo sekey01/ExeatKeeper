@@ -56,7 +56,7 @@ class _StudentSearchState extends State<StudentSearch> {
                 controller: _searchController,
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
-                  hintText: 'search student',
+                  hintText: 'Search Student',
                   fillColor: Colors.blueGrey.shade100,
                   filled: true,
                   prefixIcon: const Icon(
@@ -73,7 +73,7 @@ class _StudentSearchState extends State<StudentSearch> {
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
-                      color: Colors.deepOrangeAccent,
+                      color: Colors.blueGrey,
                       style: BorderStyle.none,
                     ),
                     borderRadius: BorderRadius.circular(10),
@@ -82,18 +82,19 @@ class _StudentSearchState extends State<StudentSearch> {
                   ),
 
                   hintStyle: TextStyle(
+                    fontFamily: 'QuickSand',
                     color: Colors.black,
                     fontSize: 10.sp,
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(
-                      color: Colors.deepOrangeAccent,
+                      color: Colors.blueGrey,
                       style: BorderStyle.solid,
                     ),
                   ),
-                  label: const Text('search student'),
-                  labelStyle: TextStyle(color: Colors.grey, fontSize: 10.spMin),
+                  label: const Text('Search Student'),
+                  labelStyle: TextStyle(color: Colors.grey, fontSize: 10.spMin,fontFamily: 'QuickSand',),
                 ),
                 onChanged: (value) {
                   _searchStudents(value);
@@ -118,6 +119,7 @@ class _StudentSearchState extends State<StudentSearch> {
                     padding: const EdgeInsets.all(8.0),
                     child: ExpansionTile(
                       collapsedShape: RoundedRectangleBorder(
+                        side: const BorderSide(color: Colors.black),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       iconColor: Colors.black,
@@ -126,6 +128,8 @@ class _StudentSearchState extends State<StudentSearch> {
                       title: Text(
                         ' ${student.name}',
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'QuickSand',
                           color: Colors.black,
                           fontSize: 15.sp,
                         ),

@@ -31,10 +31,19 @@ class _LoginState extends State<Login> {
       //get uid
       final uid = _auth.currentUser!.uid;
       Provider.of<LocalStorageProvider>(context, listen: false).storeId(uid);
+      if(uid != null){
+        final user = FirebaseFirestore.instance.collection('SchoolDetails').doc(uid);
+        user.get().then((value) {
+          if(value.exists){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> Home()));
+
+          }
+        });
+      }
 
       Notify(context, 'Login Successful', Colors.green);
     } catch (e) {
-      Notify(context, 'Error: $e', Colors.red);
+      Notify(context, 'Wrong Credentials', Colors.red);
     } finally {
       setState(() {
         isLoading = false;
@@ -52,6 +61,7 @@ final formkey = GlobalKey<FormState>();
   void initState() {
     // TODO: implement initState
     super.initState();
+
 
   }
   @override
@@ -96,8 +106,9 @@ final formkey = GlobalKey<FormState>();
               ),
               const SizedBox(height: 20),
              const Text(' A better way to keep exeat', style: TextStyle(
-               fontFamily: 'Trojan',
+               fontFamily: 'QuickSand',
                color: Colors.black,
+               fontWeight: FontWeight.bold,
                fontSize: 15
              ),),
               const SizedBox(height: 20,),
@@ -237,7 +248,7 @@ final formkey = GlobalKey<FormState>();
                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> ResetPassword()));
 
                                     },
-                                    child: const Text('Forgot your password ?',style: TextStyle(color: Colors.white),),
+                                    child: const Text('Forgot your password ?',style: TextStyle(color: Colors.white,fontFamily: 'QuickSand',fontWeight: FontWeight.bold),),
                                   )
                                 ],
                               ),
@@ -249,7 +260,6 @@ final formkey = GlobalKey<FormState>();
                                 if(formkey.currentState!.validate()){
                                   signIn(_emailController.text.trim(), _passwordController.text.trim()).then((_){
                                     Provider.of<LocalStorageProvider>(context, listen: false).storeLoginStatus('true');
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Home()));
                                     //clear controlers
                                     _emailController.clear();
                                     _passwordController.clear();

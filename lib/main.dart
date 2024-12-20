@@ -3,6 +3,7 @@ import 'package:ek/Notification_Provider/notification_provider.dart';
 import 'package:ek/pages/home.dart';
 import 'package:ek/pages/init_pages/splash_screen.dart';
 import 'package:ek/provider/functions/download_function.dart';
+import 'package:ek/provider/functions/other_functions.dart';
 import 'package:ek/provider/functions/uploadfunction.dart';
 import 'package:ek/provider/local_storage/StoreCredentials.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,19 +21,7 @@ Future<void> main() async{
    await dotenv.load(fileName: "assets/.env");
   // Ensure that widget binding is initialized
   WidgetsFlutterBinding.ensureInitialized();
-   await Supabase.initialize(
-     url: 'https://oehkjbrqffbwwbmrdhpr.supabase.co',
-     anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9laGtqYnJxZmZid3dibXJkaHByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjg5OTEyOTgsImV4cCI6MjA0NDU2NzI5OH0.oRDO1gwo6Jwv_q7Li2vuzY2LPnU7dr0IgjxQ6XhDF_k',
-     authOptions: const FlutterAuthClientOptions(
-       authFlowType: AuthFlowType.pkce,
-     ),
-     realtimeClientOptions: const RealtimeClientOptions(
-       logLevel: RealtimeLogLevel.info,
-     ),
-     storageOptions: const StorageClientOptions(
-       retryAttempts: 10,
-     ),
-   );
+
 
 
         // Run the app
@@ -50,6 +39,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       child: MultiProvider(
         providers: [
+          ChangeNotifierProvider(create: (context) => KeyFunctions()),
           ChangeNotifierProvider(create: (context) => LocalStorageProvider()),
           ChangeNotifierProvider(create: (context) => NotificationProvider()),
           ChangeNotifierProvider(create: (context) => DownloadFunction()),
@@ -65,6 +55,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             fontFamily: 'Righteous',
+
           ),
           home: const SplashScreen(),
         ),
